@@ -8,3 +8,6 @@ This is basic boilerplate code to:
 4. Add Example systemd service
 5. Add Example Github Action for automatic deployment
 6. Add VSCode launch.json and task.json for Typescript debugging
+7. Add ESLint + Prettier, configured to be run in commit hook
+8. Add Jenkinsfile
+9. Add Semantic Release step (with git plugin)

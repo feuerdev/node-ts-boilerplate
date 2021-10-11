@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh "npx semantic-release"
         script {
-          COMPUTED_VERSION = sh (script: "git describe --tags", returnStdout: true).trim()
+          COMPUTED_VERSION = sh (script: "git describe --tags | cut -c2-", returnStdout: true).trim()
           echo "Computed version: ${COMPUTED_VERSION}"
           // COMPUTED_VERSION="${COMPUTED_VERSION:1}"
         }

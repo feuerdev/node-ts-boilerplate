@@ -1,6 +1,7 @@
 # node-ts-boilerplate
 
 This is basic boilerplate code to:
+
 1. Setup a node project (+package.json with deploy scripts)
 2. Add Typescript (+tsconfig.json)
 3. Add dotenv package (+example .env file)

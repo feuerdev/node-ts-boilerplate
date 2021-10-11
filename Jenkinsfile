@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  tools {
+    nodejs "node16"
+  }
   environment {
     GH_TOKEN = credentials("gh-pat")
   }
@@ -10,9 +13,7 @@ pipeline {
       }
     }
     stage("Semantic Release") {
-      tools {
-        nodejs "node16"
-      }
+      
       steps {
         sh "npx semantic-release"
         script {

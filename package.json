@@ -1,6 +1,6 @@
 {
   "name": "changeme",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "changeme",
   "scripts": {
     "start": "tsc && node -r dotenv/config dist/index.js",

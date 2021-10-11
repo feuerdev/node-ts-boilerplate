@@ -12,17 +12,14 @@ pipeline {
         sh "npm ci"
       }
     }
-    stage("Semantic Release") {
-      
+    stage("Build") {
+      steps {
+        sh "npm run build"
+      }
+    }
+    stage("Release") {
       steps {
         sh "npx semantic-release"
-        script {
-          COMPUTED_VERSION = sh (script: "git describe --tags | cut -c2-", returnStdout: true).trim()
-          echo "Computed version: ${COMPUTED_VERSION}"
-        }
-        // sh "npm version ${COMPUTED_VERSION} --no-git-tag-version"
-        // sh "git commit -am 'Jenkins updated version to ${COMPUTED_VERSION}'"
-        // sh "git push"
       }
     }
   }

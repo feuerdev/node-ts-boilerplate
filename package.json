@@ -3,7 +3,8 @@
   "version": "1.0.6",
   "description": "changeme",
   "scripts": {
-    "start": "tsc && node -r dotenv/config dist/index.js",
+    "start": "npm run build && node -r dotenv/config dist/index.js",
+    "build": "tsc",
     "deploy": "git pull && npm install && npm start",
     "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --cache --fix \"src/**/*.{js,jsx,ts,tsx}\""

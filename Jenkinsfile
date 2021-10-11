@@ -13,7 +13,7 @@ pipeline {
         script {
           COMPUTED_VERSION = sh (script: "git describe --tags", returnStdout: true).trim()
           echo "Computed version: ${COMPUTED_VERSION}"
-          COMPUTED_VERSION="${COMPUTED_VERSION:1}"
+          // COMPUTED_VERSION="${COMPUTED_VERSION:1}"
         }
         sh "npm version ${COMPUTED_VERSION}"
         sh "git commit -am 'Jenkins updated version to ${COMPUTED_VERSION}'"

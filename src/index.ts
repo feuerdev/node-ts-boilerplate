@@ -1,5 +1,1 @@
-//Load .env File
-import dotenv from "dotenv"
-dotenv.config()
-
-console.log("hi")
+console.log(`hi ${process.env.NAME}`)

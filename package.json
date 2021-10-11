@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "changeme",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "tsc && node -r dotenv/config dist/index.js",
     "deploy": "git pull && npm install && npm start"
   },
   "author": "jannik@feuer.dev",

@@ -15,7 +15,7 @@ pipeline {
           echo "Computed version: ${COMPUTED_VERSION}"
           // COMPUTED_VERSION="${COMPUTED_VERSION:1}"
         }
-        sh "npm version ${COMPUTED_VERSION}"
+        sh "npm version ${COMPUTED_VERSION} --no-git-tag-version"
         sh "git commit -am 'Jenkins updated version to ${COMPUTED_VERSION}'"
         sh "git push"
       }

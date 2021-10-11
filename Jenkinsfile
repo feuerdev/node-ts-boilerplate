@@ -4,6 +4,11 @@ pipeline {
     GH_TOKEN = credentials("gh-pat")
   }
   stages {
+    stage("Install") {
+      steps {
+        sh "npm ci"
+      }
+    }
     stage("Semantic Release") {
       tools {
         nodejs "node16"

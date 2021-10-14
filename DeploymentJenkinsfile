@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+    choice(name: 'ENVIRONMENT', choices: ['Staging', 'Production'], description: 'Choose the target environment')
+  }
   tools {
     nodejs "node16"
   }
@@ -7,6 +10,11 @@ pipeline {
     GH_TOKEN = credentials("gh-pat")
   }
   stages {
+    stage("Info") {
+      steps {
+        echo "Environment: ${params.ENVIRONMENT}"
+      }
+    }
     stage("Install") {
       steps {
         sh "npm ci"

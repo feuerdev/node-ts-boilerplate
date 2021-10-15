@@ -5,7 +5,6 @@
   "scripts": {
     "start": "npm run build && node -r dotenv/config dist/index.js",
     "build": "tsc",
-    "deploy": "git pull && npm install && npm start",
     "lint": "eslint --cache",
     "lint:fix": "eslint --cache --fix",
     "format": "npx prettier . -c --config .prettierrc.json",

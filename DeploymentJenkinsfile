@@ -1,7 +1,7 @@
 pipeline {
   agent any
   parameters {
-    choice(name: 'ENVIRONMENT', choices: ['Staging', 'Production'], description: 'Choose the target environment')
+    choice(name: 'ENVIRONMENT', choices: ['staging', 'production'], description: 'Choose the target environment')
   }
   tools {
     nodejs "node16"
@@ -13,6 +13,17 @@ pipeline {
     stage("Info") {
       steps {
         echo "Environment: ${params.ENVIRONMENT}"
+        sh "printenv"
+        //ssh to vserver (SSH key, Jenkins user)
+        //navigate to project directory
+        //sh "mkdir staging production || true"
+        //sh "cd ${params.ENVIRONMENT}"
+        //sh "docker compose down"
+        //sh "cd .."
+        //sh "rm -rf ${params.ENVIRONMENT}"
+
+        //sh "git clone -b ${env.BRANCH_NAME} --single-branch git://sub.domain.com/repo.git"
+
       }
     }
     stage("Install") {

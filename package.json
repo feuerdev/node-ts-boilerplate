@@ -6,8 +6,10 @@
     "start": "npm run build && node -r dotenv/config dist/index.js",
     "build": "tsc",
     "deploy": "git pull && npm install && npm start",
-    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint --cache --fix \"src/**/*.{js,jsx,ts,tsx}\""
+    "lint": "eslint --cache",
+    "lint:fix": "eslint --cache --fix",
+    "format": "npx prettier . -c --config .prettierrc.json",
+    "format:fix": "npx prettier . -c -w --config .prettierrc.json"
   },
   "author": "jannik@feuer.dev",
   "license": "ISC",
@@ -36,7 +38,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json}": [
       "npm run lint:fix",
-      "npx prettier . --write"
+      "npm run format:fix"
     ]
   }
 }

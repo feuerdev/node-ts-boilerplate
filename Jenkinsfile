@@ -48,10 +48,10 @@ pipeline {
                 remote.password = "$PASSWORD"
                 remote.allowAnyHosts = true
                 // sshPut remote: remote, from: '.', into: '.'
-                sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} temp"
-                sshCommand remote: remote, command: "cd temp"
-                sshCommand remote: remote, command: "sudo docker-compose down "
-                sshCommand remote: remote, command: "HOST=myhost;sudo docker-compose up -d"
+                sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} temp; cd temp; sudo docker-compose down; HOST=myhost;sudo docker-compose up -d --build"
+                // sshCommand remote: remote, command: "cd temp"
+                // sshCommand remote: remote, command: "sudo docker-compose down "
+                // sshCommand remote: remote, command: "HOST=myhost;sudo docker-compose up -d"
                 sshRemove remote: remote, path: "temp"
               }
             }

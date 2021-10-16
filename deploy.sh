@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo whoami
+git clone https://github.com/feuerdev/node-ts-boilerplate.git

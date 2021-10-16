@@ -33,11 +33,13 @@ pipeline {
           withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             def remote = [:]
             remote.name = "vserver"
-            remote.user = $USERNAME
+            remote.user = "$USERNAME"
             remote.host = "feuer.dev"
-            remote.password = $PASSWORD
+            remote.password = "$PASSWORD"
             remote.allowAnyHosts = true
-            sshScript remote: remote, script: "deploy.sh"
+            sshPut remote: remote, from: '.', into: '.'
+            // sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} temp"
+            // sshRemove remote: remote, path: "temp"
           }
         }
       }

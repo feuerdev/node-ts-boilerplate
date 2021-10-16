@@ -27,5 +27,18 @@ pipeline {
         sh "npx semantic-release"
       }
     }
+    stage("Deploy") {
+      withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        def remote = [:]
+        remote.name = "vserver"
+        remote.user = $USERNAME
+        remote.host = "feuer.dev"
+        remote.password = $PASSWORD
+        remote.allowAnyHosts = true
+        steps {
+          sshScript remote: remote, script: "deploy.sh"
+        }
+      }
+    }
   }
 }

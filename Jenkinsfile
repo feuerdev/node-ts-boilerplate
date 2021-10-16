@@ -10,7 +10,7 @@ pipeline {
     stage("Parent") {
       when {
         not {
-          changelog '.*\[skip ci\].*'
+          changelog '.*\\[skip ci\\].*'
         }
       }
       stages {

@@ -1,15 +1,15 @@
 version: "3.5"
 services:
-  portfolio:
+  changeme:
     build: .
     container_name: "changeme"
     ports:
       - "5000:5000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portfolio.rule=Host(${HOST})"
-      - "traefik.http.routers.portfolio.entrypoints=websecure"
-      - "traefik.http.routers.portfolio.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.changeme.rule=Host(${HOST})"
+      - "traefik.http.routers.changeme.entrypoints=websecure"
+      - "traefik.http.routers.changeme.tls.certresolver=letsencrypt"
     networks:
       - jnet
 networks:

@@ -28,14 +28,14 @@ pipeline {
       }
     }
     stage("Deploy") {
-      withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        def remote = [:]
-        remote.name = "vserver"
-        remote.user = $USERNAME
-        remote.host = "feuer.dev"
-        remote.password = $PASSWORD
-        remote.allowAnyHosts = true
-        steps {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          def remote = [:]
+          remote.name = "vserver"
+          remote.user = $USERNAME
+          remote.host = "feuer.dev"
+          remote.password = $PASSWORD
+          remote.allowAnyHosts = true
           sshScript remote: remote, script: "deploy.sh"
         }
       }

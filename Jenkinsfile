@@ -41,7 +41,8 @@ pipeline {
           steps {
             script {
               withCredentials([file(credentialsId: 'env-node-ts-boilerplate', variable: 'ENV_FILE')]) {
-                sh 'echo $ENV_FILE > .env'
+                sh "echo $ENV_FILE > .env"
+                sh "ls -al"
               
                 withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                   def remote = [:]
@@ -50,8 +51,9 @@ pipeline {
                   remote.host = "feuer.dev"
                   remote.password = "$PASSWORD"
                   remote.allowAnyHosts = true
-                  sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.BRANCH_NAME}; cd ${env.BRANCH_NAME}; sudo docker-compose down; sudo docker-compose up -d --build"
+                  sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.BRANCH_NAME}"
                   sshPut remote: remote, from: ".env", into: "${env.BRANCH_NAME}"
+                  sshCommand remote: remote, command: "cd ${env.BRANCH_NAME}; sudo docker-compose down; sudo docker-compose up -d --build"
                   sshRemove remote: remote, path: "${env.BRANCH_NAME}"
                 }
               }

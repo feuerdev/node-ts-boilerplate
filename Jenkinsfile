@@ -20,14 +20,16 @@ pipeline {
             sh "npm ci"
           }
         }
-        stage("Lint") {
-          steps {
-            sh "npm run lint"
+        parallel {
+          stage("Lint") {
+            steps {
+              sh "npm run lint"
+            }
           }
-        }
-        stage("Build") {
-          steps {
-            sh "npm run build"
+          stage("Build") {
+            steps {
+              sh "npm run build"
+            }
           }
         }
         stage("Release") {

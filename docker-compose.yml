@@ -2,7 +2,7 @@ version: "3.5"
 services:
   changeme:
     build: .
-    container_name: "changeme"
+    # container_name: "changeme"
     ports:
       - "5001:5001" # changeme
     labels:

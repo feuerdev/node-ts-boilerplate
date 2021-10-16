@@ -1,6 +1,6 @@
 {
   "name": "changeme",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "description": "changeme",
   "scripts": {
     "start": "node -r dotenv/config dist/index.js",

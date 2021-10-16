@@ -1,6 +1,6 @@
 function run() {
   setInterval(() => {
-    console.log("yo")
+    console.log("yoi")
   }, 30000)
 }
 console.log(`hi ${process.env.NAME}`)

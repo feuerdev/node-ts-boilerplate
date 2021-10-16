@@ -4,7 +4,7 @@
   "description": "changeme",
   "scripts": {
     "start": "npm run build && node -r dotenv/config dist/index.js",
-    "build": "tsc",
+    "build": "npx tsc",
     "lint": "eslint --cache && npx prettier . -c --config .prettierrc.json",
     "lint:fix": "eslint --cache --fix && npx prettier . -c -w --config .prettierrc.json"
   },

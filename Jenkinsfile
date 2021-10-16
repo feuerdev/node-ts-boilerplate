@@ -36,24 +36,38 @@ pipeline {
             sh "npx semantic-release"
           }
         }
+        parallel {
+          stage("Prepare Production Deployment") {
+            when { branch 'master' }
+            steps {
+              withCredentials([file(credentialsId: 'env-production-node-ts-boilerplate', variable: 'ENV_FILE')]) {
+                writeFile file: '.env', text: readFile(ENV_FILE)
+              }
+            }
+          }
+          stage("Prepare Staging Deployment") {
+            when { not { branch 'master' } }
+            steps {
+              withCredentials([file(credentialsId: 'env-staging-node-ts-boilerplate', variable: 'ENV_FILE')]) {
+                writeFile file: '.env', text: readFile(ENV_FILE)
+              }
+            }
+          }
+        }
         stage("Deploy") {
           steps {
             script {
-              withCredentials([file(credentialsId: 'env-node-ts-boilerplate', variable: 'ENV_FILE')]) {
-                withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                  def remote = [:]
-                  remote.name = "vserver"
-                  remote.user = "$USERNAME"
-                  remote.host = "feuer.dev"
-                  remote.password = "$PASSWORD"
-                  remote.allowAnyHosts = true
-                  sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.BRANCH_NAME}"
-                  writeFile file: '.env', text: readFile(ENV_FILE)
-                  // sh "echo $ENV_FILE > .env"
-                  sshPut remote: remote, from: ".env", into: "${env.BRANCH_NAME}"
-                  sshCommand remote: remote, command: "cd ${env.BRANCH_NAME}; sudo docker-compose down; sudo docker-compose up -d --build"
-                  sshRemove remote: remote, path: "${env.BRANCH_NAME}"
-                }
+              withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                def remote = [:]
+                remote.name = "vserver"
+                remote.user = "$USERNAME"
+                remote.host = "feuer.dev"
+                remote.password = "$PASSWORD"
+                remote.allowAnyHosts = true
+                sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.BRANCH_NAME}"
+                sshPut remote: remote, from: ".env", into: "${env.BRANCH_NAME}"
+                sshCommand remote: remote, command: "cd ${env.BRANCH_NAME}; sudo docker-compose down; sudo docker-compose up -d --build"
+                sshRemove remote: remote, path: "${env.BRANCH_NAME}"
               }
             }
           }

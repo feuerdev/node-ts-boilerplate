@@ -14,6 +14,18 @@ pipeline {
       steps {
         echo "Environment: ${params.ENVIRONMENT}"
         sh "printenv"
+        sh 'ssh jannik@feuer.dev bash -c "'
+          mkdir changeme || true
+          cd changeme
+          mkdir staging production || true
+          cd ${params.ENVIRONMENT}
+          docker compose down || true
+          cd ..
+          rm -rf ${params.ENVIRONMENT}
+          git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${params.ENVIRONMENT}
+          cd ${params.ENVIRONMENT}
+          docker compose up
+        '"'
         //ssh to vserver (SSH key, Jenkins user)
         //navigate to project directory
         //sh "mkdir staging production || true"
@@ -21,19 +33,9 @@ pipeline {
         //sh "docker compose down"
         //sh "cd .."
         //sh "rm -rf ${params.ENVIRONMENT}"
-
-        //sh "git clone -b ${env.BRANCH_NAME} --single-branch git://sub.domain.com/repo.git"
-
-      }
-    }
-    stage("Install") {
-      steps {
-        sh "npm ci"
-      }
-    }
-    stage("Build") {
-      steps {
-        sh "npm run build"
+        //sh "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${params.ENVIRONMENT}"
+        //sh "cd ${params.ENVIRONMENT}"
+        //sh "docker compose up"
       }
     }
   }

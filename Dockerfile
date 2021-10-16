@@ -5,12 +5,12 @@ EXPOSE 5000
 
 WORKDIR /app
 
-COPY ["tsconfig.json", "package.json", "package-lock.json*", "./"]
+COPY ["package.json", "package-lock.json*", "./"]
 
 RUN npm install --production
 
-RUN npm run build
-
 COPY . .
+
+RUN npm run build
 
 CMD [ "npm", "start"]

@@ -37,7 +37,6 @@ pipeline {
           }
         }
         stage("Deploy") {
-          when { branch 'master' }
           steps {
             script {
               withCredentials([file(credentialsId: 'env-node-ts-boilerplate', variable: 'ENV_FILE')]) {

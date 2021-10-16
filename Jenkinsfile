@@ -7,7 +7,7 @@ pipeline {
     GH_TOKEN = credentials("gh-pat")
   }
   stages {
-    stage {
+    stage("Parent") {
       when {
         not {
           changelog '.*^\\[skip ci\\] .+$'

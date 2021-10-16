@@ -34,7 +34,7 @@ pipeline {
             }
           }
         }
-        stage("Release") {
+        stage("Versioning") {
           when { branch 'master' }
           steps {
             sh "npx semantic-release"

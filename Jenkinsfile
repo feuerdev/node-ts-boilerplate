@@ -61,6 +61,7 @@ pipeline {
           }
         }
         stage("Deploy") {
+          when { expression { env.CHANGE_ID == null } }
           steps {
             script {
               withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {

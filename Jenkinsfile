@@ -20,15 +20,17 @@ pipeline {
             sh "npm ci"
           }
         }
-        parallel {
-          stage("Lint") {
-            steps {
-              sh "npm run lint"
+        stage("Checking") {
+          parallel {
+            stage("Lint") {
+              steps {
+                sh "npm run lint"
+              }
             }
-          }
-          stage("Build") {
-            steps {
-              sh "npm run build"
+            stage("Build") {
+              steps {
+                sh "npm run build"
+              }
             }
           }
         }
@@ -38,20 +40,22 @@ pipeline {
             sh "npx semantic-release"
           }
         }
-        parallel {
-          stage("Prepare Production Deployment") {
-            when { branch 'master' }
-            steps {
-              withCredentials([file(credentialsId: 'env-production-node-ts-boilerplate', variable: 'ENV_FILE')]) {
-                writeFile file: '.env', text: readFile(ENV_FILE)
+        stage("Prepare Deployment") {
+          parallel {
+            stage("Production") {
+              when { branch 'master' }
+              steps {
+                withCredentials([file(credentialsId: 'env-production-node-ts-boilerplate', variable: 'ENV_FILE')]) {
+                  writeFile file: '.env', text: readFile(ENV_FILE)
+                }
               }
             }
-          }
-          stage("Prepare Staging Deployment") {
-            when { not { branch 'master' } }
-            steps {
-              withCredentials([file(credentialsId: 'env-staging-node-ts-boilerplate', variable: 'ENV_FILE')]) {
-                writeFile file: '.env', text: readFile(ENV_FILE)
+            stage("Staging") {
+              when { not { branch 'master' } }
+              steps {
+                withCredentials([file(credentialsId: 'env-staging-node-ts-boilerplate', variable: 'ENV_FILE')]) {
+                  writeFile file: '.env', text: readFile(ENV_FILE)
+                }
               }
             }
           }

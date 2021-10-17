@@ -1,8 +1,7 @@
-ARG PORT
 FROM node:16-alpine3.11
 
 ENV NODE_ENV=production
-EXPOSE $PORT
+EXPOSE 5000
 
 WORKDIR /app
 

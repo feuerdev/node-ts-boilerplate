@@ -1,7 +1,10 @@
 version: "3.5"
 services:
   changeme:
-    build: .
+    build:
+      context: .
+      args:
+        PORT: ${PORT}
     ports:
       - "${PORT}:${PORT}"
     labels:

@@ -5,6 +5,7 @@ pipeline {
   }
   environment {
     GH_TOKEN = credentials("gh-pat")
+    ENVIRONMENT = "${env.BRANCH_NAME == "master" ? "production" : "staging"}"
   }
   stages {
     stage("Skip Gate") {
@@ -38,6 +39,9 @@ pipeline {
           when { branch 'master' }
           steps {
             sh "npx semantic-release"
+            script {
+              COMPUTED_VERSION = sh (script: "git describe --tags", returnStdout: true).trim()
+            }
           }
         }
         stage("Prepare Deployment") {
@@ -61,8 +65,11 @@ pipeline {
           }
         }
         stage("Deploy") {
-          when { expression { env.CHANGE_ID == null } }
+          when { expression { env.CHANGE_ID == null } } //Don't deploy a "PR"-Branch
           steps {
+            sh "cat .env"
+            sh "(echo; echo ENVIRONMENT=${env.ENVIRONMENT}) >> .env"
+            sh "cat .env"
             script {
               withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 def remote = [:]
@@ -71,10 +78,12 @@ pipeline {
                 remote.host = "feuer.dev"
                 remote.password = "$PASSWORD"
                 remote.allowAnyHosts = true
-                sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.BRANCH_NAME}"
-                sshPut remote: remote, from: ".env", into: "${env.BRANCH_NAME}"
-                sshCommand remote: remote, command: "cd ${env.BRANCH_NAME}; sudo docker-compose down; sudo docker-compose up -d --build"
-                sshRemove remote: remote, path: "${env.BRANCH_NAME}"
+                sshCommand remote: remote, command: "cd ${env.ENVIRONMENT}; sudo docker-compose down || true"
+                sshRemove remote: remote, path: "${env.ENVIRONMENT}" //Defensive cleaning of the workspace
+                sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.ENVIRONMENT}"
+                sshPut remote: remote, from: ".env", into: "${env.ENVIRONMENT}"
+                sshCommand remote: remote, command: "cd ${env.ENVIRONMENT}; sudo docker-compose down; sudo docker-compose up -d --build"
+                sshRemove remote: remote, path: "${env.ENVIRONMENT}"
               }
             }
           }

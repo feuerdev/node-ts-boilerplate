@@ -20,6 +20,7 @@ pipeline {
         stage("Install") {
           steps {
             sh "npm ci"
+            sh "git fetch --tags -f"
           }
         }
         stage("Checking") {

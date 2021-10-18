@@ -3,6 +3,7 @@ pipeline {
   tools {
     nodejs "node16"
   }
+  options { skipDefaultCheckout() }
   environment {
     GH_TOKEN = credentials("gh-pat")
     ENVIRONMENT = "${env.BRANCH_NAME == "master" ? "production" : "staging"}"
@@ -18,6 +19,7 @@ pipeline {
       stages {
         stage("Install") {
           steps {
+            sh "git clone https://github.com/feuerdev/node-ts-boilerplate.git ."
             sh "npm ci"
           }
         }

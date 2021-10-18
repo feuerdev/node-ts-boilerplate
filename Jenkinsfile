@@ -38,6 +38,7 @@ pipeline {
         stage("Versioning") {
           when { branch 'master' }
           steps {
+            sh "git fetch --tags"
             sh "git pull --tags"
             sh "npx semantic-release"
             script {

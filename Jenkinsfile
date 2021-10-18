@@ -75,7 +75,7 @@ pipeline {
                 remote.host = "feuer.dev"
                 remote.password = "$PASSWORD"
                 remote.allowAnyHosts = true
-                sshCommand remote: remote, command: "cd ${env.ENVIRONMENT}; sudo docker-compose down"
+                sshCommand remote: remote, command: "cd ${env.ENVIRONMENT}; sudo docker-compose down || true"
                 sshRemove remote: remote, path: "${env.ENVIRONMENT}" //Defensive cleaning of the workspace
                 sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.ENVIRONMENT}"
                 sshPut remote: remote, from: ".env", into: "${env.ENVIRONMENT}"

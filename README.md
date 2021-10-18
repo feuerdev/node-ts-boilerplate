@@ -1,6 +1,6 @@
 # node-ts-boilerplate
 
-This is boilerplate code to:
+## This is boilerplate code to:
 
 1. Setup a node project (+package.json with deploy scripts)
 2. Add Typescript (+tsconfig.json)

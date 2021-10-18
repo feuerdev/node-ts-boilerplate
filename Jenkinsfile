@@ -79,7 +79,7 @@ pipeline {
                 sshRemove remote: remote, path: "${env.ENVIRONMENT}" //Defensive cleaning of the workspace
                 sshCommand remote: remote, command: "git clone -b ${env.BRANCH_NAME} --single-branch ${GIT_URL} ${env.ENVIRONMENT}"
                 sshPut remote: remote, from: ".env", into: "${env.ENVIRONMENT}"
-                sshCommand remote: remote, command: "(export ENVIRONMENT=${env.ENVIRONMENT}; cd ${env.ENVIRONMENT}; sudo docker-compose down; sudo docker-compose up -d --build"
+                sshCommand remote: remote, command: "(export ENVIRONMENT=${env.ENVIRONMENT}; cd ${env.ENVIRONMENT}; sudo docker-compose down; sudo docker-compose up -d --build)"
                 sshRemove remote: remote, path: "${env.ENVIRONMENT}"
               }
             }

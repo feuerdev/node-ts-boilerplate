@@ -67,7 +67,9 @@ pipeline {
         stage("Deploy") {
           when { expression { env.CHANGE_ID == null } } //Don't deploy a "PR"-Branch
           steps {
+            sh "cat .env"
             sh "echo 'ENVIRONMENT=${env.ENVIRONMENT}' >> .env"
+            sh "cat .env"
             script {
               withCredentials([usernamePassword(credentialsId: 'jenkinsUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 def remote = [:]

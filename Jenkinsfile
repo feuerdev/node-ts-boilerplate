@@ -3,7 +3,6 @@ pipeline {
   tools {
     nodejs "node16"
   }
-  options { skipDefaultCheckout() }
   environment {
     GH_TOKEN = credentials("gh-pat")
     ENVIRONMENT = "${env.BRANCH_NAME == "master" ? "production" : "staging"}"

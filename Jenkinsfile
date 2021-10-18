@@ -38,6 +38,7 @@ pipeline {
         stage("Versioning") {
           when { branch 'master' }
           steps {
+            sh "git pull --tags"
             sh "npx semantic-release"
             script {
               COMPUTED_VERSION = sh (script: "git describe --tags", returnStdout: true).trim()

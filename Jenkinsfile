@@ -19,7 +19,7 @@ pipeline {
       stages {
         stage("Install") {
           steps {
-            // sh "rm -rf a"
+            sh "rm -rf a"
             // sh "git clone https://github.com/feuerdev/node-ts-boilerplate.git a"
             // sh 'cd a; npm ci; echo hello > a.txt; git config --global user.name "jannik"; git config --global user.email "jannik@feuer.dev"; git add .; git commit -am "BREAKING CHANGE: version"; npx semantic-release'
             sh "npm ci"

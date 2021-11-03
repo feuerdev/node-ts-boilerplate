@@ -12,4 +12,4 @@
 8. Add Semantic Release step (with git plugin)
 9. Add Docker Support (+Traefik)
 
-TODO: yargs setup
+TODO: yargs setup, Don't deploy me

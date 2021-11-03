@@ -10,4 +10,4 @@
 6. Add ESLint + Prettier, configured to be run in commit hook
 7. Add Jenkinsfile (CI/CD)
 8. Add Semantic Release step (with git plugin)
-9. Add Docker Support
+9. Add Docker Support (+Traefik)

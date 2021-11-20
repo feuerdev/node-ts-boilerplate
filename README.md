@@ -11,5 +11,3 @@
 7. Add Jenkinsfile (CI/CD)
 8. Add Semantic Release step (with git plugin)
 9. Add Docker Support (+Traefik)
-
-TODO: yargs setup, Don't deploy me

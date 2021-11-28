@@ -14,5 +14,4 @@ services:
       - jnet
 networks:
   jnet:
-    external:
-      name: jnet
+    name: jnet
